@@ -3,7 +3,13 @@ require 'torquebox'
 
 class Brukerstyring < Sinatra::Base
 
-  get "/" do
-    "Opprett kilder og brukere her"
+  configure :development do
+    require "sinatra/reloader"
+    register Sinatra::Reloader
   end
+
+  get "/" do
+    erb :index
+  end
+
 end

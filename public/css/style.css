@@ -1,0 +1,14 @@
+html,body { margin:1em; padding:0; background:#eee; font-family: Arial;}
+#container { border: 2px solid black; padding: 1em; width: 1000px; margin:auto; background:#fff;}
+.clearfix { clear:both;}
+.kilde { background:#eee; font-size: 14px; width:98%; padding: 1%; margin-bottom:1em;}
+.kilde-navn { font-size: 1.5em; display:inline-block; float:left; cursor: pointer;}
+.kilde-innhold { clear: both; display: none;}
+.triangle { font-size:1.5em; display:inline-block; float:right; cursor: pointer;}
+.close:after {content: '▲'; }
+.open:after {content: '▼'; }
+
+table.brukere { margin: 1em;}
+table.brukere th { text-align: left;}
+table.brukere td { min-width: 70px;}
+table.brukere tr:odd { background: #f5f5f5 };

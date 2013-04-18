@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="no">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Bokanbefalinger brukerstyring</title>
+  <meta name="author" content="Deichmanske Bibliotek">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/brukerstyring/css/style.css" type="text/css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+</head>
+
+<body>
+  <div id="container">
+    <h2>Bokanbefalinger brukerstyring</h2>
+
+    <div class="kilde">
+      <div class="kilde-navn">Deichmanske bibliotek</div>
+      <div class="triangle open"></div>
+      <div class="clearfix"></div>
+      <div class="kilde-innhold">
+        <table class="brukere">
+          <thead>
+            <tr>
+              <th>e-post</th>
+              <th>navn</th>
+              <th>aktivert?</th>
+              <th>endre</th>
+              <th>info</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="epost"><input type="text" value="hei@dott.com"></td>
+              <td class="navn"><input type="text" value="Navn Navnesen"></td>
+              <td class="aktivert"><input type="checkbox" checked="checked"></td>
+              <td class="endre"><button>lagre</button></td>
+              <td class="info"></td>
+            </tr>
+            <tr class="ny-bruker">
+              <td class="epost"><input type="text" value=""></td>
+              <td class="navn"><input type="text" value=""></td>
+              <td class="aktivert"><input type="checkbox"></td>
+              <td class="endre"><button>opprett</button></td>
+              <td class="info"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="kilde">
+      <div class="kilde-navn">Lillehammer bibliotek</div>
+      <div class="triangle open"></div>
+      <div class="clearfix"></div>
+      <div class="kilde-innhold">
+        innhold
+      </div>
+    </div>
+
+    <div class="kilde">
+      <div class="kilde-navn">Opprett ny kilde</div>
+      <div class="triangle open"></div>
+      <div class="clearfix"></div>
+      <div class="kilde-innhold">
+        <p>Lag ny kilde</p>
+      </div>
+    </div>
+
+  </div>
+  <script>
+    $(document).ready(function() {
+
+      $('.kilde').on('click', '.triangle.close', function() {
+        $(this).removeClass("close").addClass("open");
+        $(this).next().next().slideUp();
+      });
+
+      $('.kilde').on('click', '.triangle.open', function() {
+        $('.kilde-innhold').slideUp();
+        $('.close').removeClass("close").addClass("open");
+        $(this).removeClass("open").addClass("close");
+        $(this).next().next().slideDown();
+      });
+
+      $('.kilde-navn').on('click', function() {
+        $(this).next().click();
+      });
+    });
+  </script>
+</body>
+</html>
