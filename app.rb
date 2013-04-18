@@ -3,7 +3,7 @@ require 'torquebox'
 require 'faraday'
 require 'json'
 
-require "./config/settings.rb"
+require_relative "config/settings.rb"
 
 module Sources
   module_function
@@ -92,7 +92,7 @@ class Brukerstyring < Sinatra::Base
   end
 
   use Rack::Auth::Basic, "Restricted Area" do |username, password|
-    [username, password] == [Settings::USERNAME, settings::PASSWORD]
+    [username, password] == [Settings::USERNAME, Settings::PASSWORD]
   end
 
   get "/" do
