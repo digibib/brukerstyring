@@ -53,6 +53,10 @@ class Brukerstyring < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  use Rack::Auth::Basic, "Restricted Area" do |username, password|
+    [username, password] == [Settings::USERNAME, settings::PASSWORD]
+  end
+
   get "/" do
 
     @sources = Sources.load
