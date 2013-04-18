@@ -4,6 +4,7 @@ html,body { margin:1em; padding:0; background:#eee; font-family: Arial;}
 .kilde { background:#eee; font-size: 14px; width:98%; padding: 1%; margin-bottom:1em;}
 .ny-kilde { background:#ded; font-size: 14px; width:98%; padding: 1%; margin-bottom:1em;}
 .kilde-navn { font-size: 1.5em; display:inline-block; float:left; cursor: pointer;}
+.kilde-navn-ny { font-size: 1.5em; display:inline-block; float:left;}
 .kilde-info { padding: 1em; margin-bottom: 1em;}
 .kilde-innhold { clear: both; display: none;}
 .triangle { font-size:1.5em; display:inline-block; float:right; cursor: pointer;}
