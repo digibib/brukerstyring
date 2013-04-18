@@ -76,11 +76,13 @@
   <script>
     $(document).ready(function() {
 
+      // Hide source details
       $('#container').on('click', '.triangle.close', function() {
         $(this).removeClass("close").addClass("open");
         $(this).next().next().slideUp();
       });
 
+      // Show source details
       $('#container').on('click', '.triangle.open', function() {
         $('.kilde-innhold').slideUp();
         $('.close').removeClass("close").addClass("open");
@@ -88,10 +90,12 @@
         $(this).next().next().slideDown();
       });
 
+      // When name is clicked - delegate to nearest triangle
       $('#container').on('click', '.kilde-navn', function() {
         $(this).next().click();
       });
 
+      // Remove source (only possible if source has no users)
       $('#container').on('click', '.delete-source', function(event) {
         $(this).html("<img class='small' src='/brukerstyring/img/loading.gif'>");
         var $kilde = $(this).parents('.kilde')
@@ -114,6 +118,39 @@
 
       });
 
+      // Update source (currently only homepage updatable)
+      $('#container').on('click', '.save-source', function(event) {
+        $(this).html("<img class='small' src='/brukerstyring/img/loading.gif'>");
+        var $kilde = $(this).parents('.kilde')
+        var uri = $kilde.find('.uri').text();
+        var name = $kilde.find('.kilde-navn').text();
+        var homepage = $kilde.find('.homepage').val()
+
+        var request = $.ajax({
+          url: 'source',
+          type: "PUT",
+          data: {
+           uri: uri,
+           name: name,
+           homepage: homepage
+           },
+          dataType: "json"
+        });
+
+        request.done(function(data){
+          console.log(data);
+          $kilde.find('.save-source').html("Lagre");
+          $kilde.find('.homepage').val(data.source.homepage);
+        });
+
+        request.fail(function(jqXHR, textStatus, errorThrown) {
+          $kilde.find('.save-source').html("Lagre");
+          console.log(textStatus);
+        });
+
+      });
+
+      // Create source
       $('#new-source').on('click', function(event) {
         event.preventDefault();
         $(this).html("<img src='/brukerstyring/img/loading.gif'>");
