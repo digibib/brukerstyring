@@ -10,7 +10,7 @@ html,body { margin:1em; padding:0; background:#eee; font-family: Arial;}
 .close:after {content: '▲'; }
 .open:after {content: '▼'; }
 label { font-weight: bold; margin:1em;}
-input.homepage { width: 300px;}
+input.homepage { width: 250px;}
 input.epost { width: 300px;}
 table.brukere { margin: 1em;}
 table.brukere th { text-align: left;}
@@ -18,3 +18,4 @@ table.brukere td { min-width: 70px;}
 table.brukere tr:odd { background: #f5f5f5 }
 .ny-kilde-info { float:right;}
 button.big { height:2em; width: 5em; font-weight:bold; margin-left:1em;}
+img.small { height:12px;}

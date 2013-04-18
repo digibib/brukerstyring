@@ -21,9 +21,10 @@
         <div class="clearfix"></div>
         <div class="kilde-innhold">
           <div class="kilde-info">
-            <label>URI:</label> &lt;<span class="uri"><%= source["uri"] %></span>&gt;&nbsp;
+            <label>URI:</label> &lt;<span class="uri"><%= source["uri"] %></span>&gt;
             <label>Hjemmeside:</label><input class="homepage" type="text" value="<%= source['homepage'] %>">&nbsp;
             <button class="save-source">lagre</button>
+            <button class="delete-source" <%= 'disabled' if source["users"] %>>slett</button>
           </div>
 
           <table class="brukere">
@@ -38,7 +39,7 @@
               </tr>
             </thead>
             <tbody>
-              <% source["users"].each do |user| %>
+              <% Array(source["users"]).each do |user| %>
                 <tr class="bruker">
                   <td class="epost"><input class="epost" type="text" value="<%= user['accountName'] %>"></td>
                   <td class="navn"><input type="text" value="<%= user['name'] %>"></td>
@@ -91,6 +92,28 @@
         $(this).next().click();
       });
 
+      $('#container').on('click', '.delete-source', function(event) {
+        $(this).html("<img class='small' src='/brukerstyring/img/loading.gif'>");
+        var $kilde = $(this).parents('.kilde')
+        var uri = $kilde.find('.uri').text();
+
+        var request = $.ajax({
+          url: 'source',
+          type: "DELETE",
+          data: { uri: uri },
+          dataType: "json"
+        });
+
+        request.done(function(data){
+          $kilde.remove();
+        });
+
+        request.fail(function(jqXHR, textStatus, errorThrown) {
+          console.log(textStatus);
+        });
+
+      });
+
       $('#new-source').on('click', function(event) {
         event.preventDefault();
         $(this).html("<img src='/brukerstyring/img/loading.gif'>");
@@ -108,8 +131,6 @@
         });
 
         request.done(function(data) {
-          console.log(data);
-
           $('#new-source-name').val("").prop("disabled", false);
           $('#new-source-homepage').val("").prop("disabled", false);
           $('#new-source').html("Opprett");
@@ -119,11 +140,12 @@
           $nykilde.find('.kilde-navn').html(data.source.name);
           $nykilde.find('.uri').text(data.source.uri);
           $nykilde.find('.homepage').val(data.source.homepage);
+          $nykilde.find('.delete-source').prop("disabled", false);
           $nykilde.insertBefore('.ny-kilde');
         });
 
         request.fail(function(jqXHR, textStatus, errorThrown) {
-          console.log("textStatus");
+          console.log(textStatus);
         });
 
       });

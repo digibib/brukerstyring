@@ -37,6 +37,18 @@ module Sources
     end
     resp.body
   end
+
+  def delete(uri)
+    begin
+      resp = CONN.delete do |req|
+        req.headers[:secret_session_key] = Settings::SECRET_SESSION_KEY
+        req.body = {:uri => uri}.to_json
+      end
+    rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
+      return {"error" => "Noe gikk galt!"}.to_json
+    end
+    resp.body
+  end
 end
 
 module Users
@@ -80,6 +92,10 @@ class Brukerstyring < Sinatra::Base
 
   post "/source" do
     Sources.create(params["name"], params["homepage"])
+  end
+
+  delete "/source" do
+    Sources.delete(params["uri"])
   end
 
 end
