@@ -14,52 +14,54 @@
 <body>
   <div id="container">
     <h2>Bokanbefalinger brukerstyring</h2>
+    <% @sources.each do |source| %>
+      <div class="kilde">
+        <div class="kilde-navn"><%= source["name"] %></div>
+        <div class="triangle open"></div>
+        <div class="clearfix"></div>
+        <div class="kilde-innhold">
+          <div class="kilde-info">
+            <label>URI:</label> &lt;<%= source["uri"] %>&gt;&nbsp;
+            <label>Hjemmeside:</label><input class="homepage" type="text" value="<%= source['homepage'] %>">&nbsp;
+            <button class="save-source">lagre</button>
+          </div>
 
-    <div class="kilde">
-      <div class="kilde-navn">Deichmanske bibliotek</div>
-      <div class="triangle open"></div>
-      <div class="clearfix"></div>
-      <div class="kilde-innhold">
-        <table class="brukere">
-          <thead>
-            <tr>
-              <th>e-post</th>
-              <th>navn</th>
-              <th>aktivert?</th>
-              <th>endre</th>
-              <th>info</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="epost"><input type="text" value="hei@dott.com"></td>
-              <td class="navn"><input type="text" value="Navn Navnesen"></td>
-              <td class="aktivert"><input type="checkbox" checked="checked"></td>
-              <td class="endre"><button>lagre</button></td>
-              <td class="info"></td>
-            </tr>
-            <tr class="ny-bruker">
-              <td class="epost"><input type="text" value=""></td>
-              <td class="navn"><input type="text" value=""></td>
-              <td class="aktivert"><input type="checkbox"></td>
-              <td class="endre"><button>opprett</button></td>
-              <td class="info"></td>
-            </tr>
-          </tbody>
-        </table>
+          <table class="brukere">
+            <thead>
+              <tr>
+                <th>e-post</th>
+                <th>navn</th>
+                <th>aktivert?</th>
+                <th>lagre</th>
+                <th>slett</th>
+                <th>info</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% source["users"].each do |user| %>
+                <tr>
+                  <td class="epost"><input class="epost" type="text" value="<%= user['accountName'] %>"></td>
+                  <td class="navn"><input type="text" value="<%= user['name'] %>"></td>
+                  <td class="aktivert"><input type="checkbox" checked="checked"></td>
+                  <td class="endre"><button>lagre</button></td>
+                  <td class="slett"><button>slett</button></td>
+                  <td class="info"></td>
+                </tr>
+              <% end %>
+              <tr class="ny-bruker">
+                <td class="epost"><input class="epost" type="text" value=""></td>
+                <td class="navn"><input type="text" value=""></td>
+                <td class="aktivert"><input type="checkbox"></td>
+                <td colspan="2" class="endre"><button>opprett ny bruker</button></td>
+                <td class="info"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    <% end %>
 
-    <div class="kilde">
-      <div class="kilde-navn">Lillehammer bibliotek</div>
-      <div class="triangle open"></div>
-      <div class="clearfix"></div>
-      <div class="kilde-innhold">
-        innhold
-      </div>
-    </div>
-
-    <div class="kilde">
+      <div class="kilde">
       <div class="kilde-navn">Opprett ny kilde</div>
       <div class="triangle open"></div>
       <div class="clearfix"></div>

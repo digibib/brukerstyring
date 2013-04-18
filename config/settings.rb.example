@@ -1,0 +1,4 @@
+module Settings
+  SECRET_SESSION_KEY = "secret"
+  API = "http://data.deichman.no/api/"
+end
