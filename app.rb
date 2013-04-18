@@ -27,6 +27,7 @@ module Sources
   end
 
   def create(name, homepage)
+    homepage = "ukjent" if homepage.empty?
     begin
       resp = CONN.post do |req|
         req.headers[:secret_session_key] = Settings::SECRET_SESSION_KEY
@@ -39,6 +40,7 @@ module Sources
   end
 
   def update(uri, name, homepage)
+    homepage = "ukjent" if homepage.empty?
     begin
       resp = CONN.put do |req|
         req.headers[:secret_session_key] = Settings::SECRET_SESSION_KEY
@@ -103,6 +105,7 @@ class Brukerstyring < Sinatra::Base
   end
 
   post "/source" do
+    puts params
     Sources.create(params["name"], params["homepage"])
   end
 
