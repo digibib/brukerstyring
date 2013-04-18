@@ -25,6 +25,18 @@ module Sources
   def save
     puts "save"
   end
+
+  def create(name, homepage)
+    begin
+      resp = CONN.post do |req|
+        req.headers[:secret_session_key] = Settings::SECRET_SESSION_KEY
+        req.body = {:name => name, :homepage => homepage}.to_json
+      end
+    rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
+      return {"error" => "Noe gikk galt!"}.to_json
+    end
+    resp.body
+  end
 end
 
 module Users
@@ -64,6 +76,10 @@ class Brukerstyring < Sinatra::Base
     @sources.map { |s| s["users"] = users.group_by { |u| u["accountServiceHomepage"]}[s["uri"]] }
 
     erb :index
+  end
+
+  post "/source" do
+    Sources.create(params["name"], params["homepage"])
   end
 
 end

@@ -11,7 +11,7 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 </head>
 
-<body>
+<body autocomplete="off">
   <div id="container">
     <h2>Bokanbefalinger brukerstyring</h2>
     <% @sources.each do |source| %>
@@ -21,7 +21,7 @@
         <div class="clearfix"></div>
         <div class="kilde-innhold">
           <div class="kilde-info">
-            <label>URI:</label> &lt;<%= source["uri"] %>&gt;&nbsp;
+            <label>URI:</label> &lt;<span class="uri"><%= source["uri"] %></span>&gt;&nbsp;
             <label>Hjemmeside:</label><input class="homepage" type="text" value="<%= source['homepage'] %>">&nbsp;
             <button class="save-source">lagre</button>
           </div>
@@ -39,7 +39,7 @@
             </thead>
             <tbody>
               <% source["users"].each do |user| %>
-                <tr>
+                <tr class="bruker">
                   <td class="epost"><input class="epost" type="text" value="<%= user['accountName'] %>"></td>
                   <td class="navn"><input type="text" value="<%= user['name'] %>"></td>
                   <td class="aktivert"><input type="checkbox" checked="checked"></td>
@@ -61,33 +61,71 @@
       </div>
     <% end %>
 
-      <div class="kilde">
-      <div class="kilde-navn">Opprett ny kilde</div>
-      <div class="triangle open"></div>
-      <div class="clearfix"></div>
-      <div class="kilde-innhold">
-        <p>Lag ny kilde</p>
-      </div>
+      <div class="ny-kilde">
+        <div class="kilde-navn">Opprett ny kilde</div>
+        <div class="ny-kilde-info"><form autocomplete="off">
+          <label>Navn:</label> <input id="new-source-name" type="text">
+          <label>Hjemmeside:</label><input id="new-source-homepage" class="homepage" type="text">
+          <button class="big" id="new-source">Opprett</button></form>
+        </div>
+        <div class="clearfix">
     </div>
 
   </div>
   <script>
     $(document).ready(function() {
 
-      $('.kilde').on('click', '.triangle.close', function() {
+      $('#container').on('click', '.triangle.close', function() {
         $(this).removeClass("close").addClass("open");
         $(this).next().next().slideUp();
       });
 
-      $('.kilde').on('click', '.triangle.open', function() {
+      $('#container').on('click', '.triangle.open', function() {
         $('.kilde-innhold').slideUp();
         $('.close').removeClass("close").addClass("open");
         $(this).removeClass("open").addClass("close");
         $(this).next().next().slideDown();
       });
 
-      $('.kilde-navn').on('click', function() {
+      $('#container').on('click', '.kilde-navn', function() {
         $(this).next().click();
+      });
+
+      $('#new-source').on('click', function(event) {
+        event.preventDefault();
+        $(this).html("<img src='/brukerstyring/img/loading.gif'>");
+        $('#new-source-name').prop("disabled", true);
+        $('#new-source-homepage').prop("disabled", true);
+
+        var request = $.ajax({
+          url: 'source',
+          type: "POST",
+          data: {
+            name: $('#new-source-name').val(),
+            homepage: $('#new-source-homepage').val()
+          },
+          dataType: "json"
+        });
+
+        request.done(function(data) {
+          console.log(data);
+
+          $('#new-source-name').val("").prop("disabled", false);
+          $('#new-source-homepage').val("").prop("disabled", false);
+          $('#new-source').html("Opprett");
+
+          var $nykilde = $('.kilde:last').clone();
+          $nykilde.find('.bruker').remove();
+          $nykilde.find('.kilde-navn').html(data.source.name);
+          $nykilde.find('.uri').text(data.source.uri);
+          $nykilde.find('.homepage').val(data.source.homepage);
+          $nykilde.insertBefore('.ny-kilde');
+        });
+
+        request.fail(function(jqXHR, textStatus, errorThrown) {
+          console.log("textStatus");
+        });
+
       });
     });
   </script>
