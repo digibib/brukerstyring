@@ -49,14 +49,15 @@ class Brukerstyring < Sinatra::Base
   end
 
   post "/user" do
+    puts params
     api_key = Sources.key(params["uri"])
-    puts api_key
     err, user = Users.create(api_key, params["name"], params["email"])
     if err
       status 400
       err["error"]
     else
-      user.to_json
+      puts user
+      "<tr class='bruker'><td class='epost'><input class='user-uri' type='hidden' value='#{user['uri']}'><input class='epost' type='text' value='#{user['accountName']}'></td><td class='navn'><input type='text' value='#{user['name']}'></td><td class='aktivert'><input type='checkbox'></td><td class='endre'><button>lagre</button></td><td class='slett'><button>slett</button></td><td class='info'></td></tr>"
     end
   end
 

@@ -52,7 +52,7 @@
             <tbody>
               <% Array(source["users"]).each do |user| %>
                 <tr class="bruker">
-                  <td class="epost"><input class="epost" type="text" value="<%= user['accountName'] %>"></td>
+                  <td class="epost"><input class="user-uri" type="hidden" value="<%= user['uri']%>"><input class="epost" type="text" value="<%= user['accountName'] %>"></td>
                   <td class="navn"><input type="text" value="<%= user['name'] %>"></td>
                   <td class="aktivert"><input type="checkbox" checked="checked"></td>
                   <td class="endre"><button>lagre</button></td>
@@ -201,15 +201,17 @@
           type: "POST",
           data: {
             name: name,
-            enail: email,
+            email: email,
             uri: uri
           },
-          dataType: "json"
+          dataType: "html"
         });
 
         request.done(function(data) {
-          console.log(data);
-
+          $user.find('.info').html("OK: bruker oprrettet");
+          $user.find('input.epost').val("");
+          $user.find('input.navn').val("");
+          $user.before(data);
         });
 
         request.fail(function(jqXHR, textStatus, errorThrown) {

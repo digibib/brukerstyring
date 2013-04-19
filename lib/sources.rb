@@ -62,7 +62,6 @@ module Sources
 
   def key(uri)
     source = Cache.get(uri) {
-      puts "no cahcin"
       begin
         resp = CONN.get do |req|
           req.headers[:secret_session_key] = Settings::SECRET_SESSION_KEY
