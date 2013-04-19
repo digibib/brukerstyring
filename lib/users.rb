@@ -6,7 +6,7 @@ module Users
 
   CONN = Faraday.new(:url => Settings::API+"users")
 
-  def load
+  def fetch
     begin
       resp = CONN.get
     rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed

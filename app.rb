@@ -1,7 +1,11 @@
 require 'sinatra/base'
 require 'torquebox'
+require 'faraday'
+require 'json'
+
 
 require_relative "config/settings"
+require_relative "lib/cache"
 require_relative "lib/users"
 require_relative "lib/sources"
 
@@ -12,13 +16,20 @@ class Brukerstyring < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  use TorqueBox::Session::ServletStore
+
   use Rack::Auth::Basic, "Restricted Area" do |username, password|
     [username, password] == [Settings::USERNAME, Settings::PASSWORD]
   end
 
+  before do
+    # nothing
+  end
+
   get "/" do
-    @sources = Sources.load
-    users = Users.load
+    @sources = Sources.fetch
+
+    users = Users.fetch
     @sources.map { |s| s["users"] = users.group_by { |u| u["accountServiceHomepage"]}[s["uri"]] }
 
     erb :index
