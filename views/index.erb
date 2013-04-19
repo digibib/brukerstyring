@@ -37,7 +37,6 @@
             <button class="save-source">lagre</button>
             <button class="delete-source" <%= 'disabled' if source["users"] %>>slett</button>
           </div>
-
           <table class="brukere">
             <thead>
               <tr>
@@ -50,6 +49,13 @@
               </tr>
             </thead>
             <tbody>
+              <tr class="ny-bruker"><form autocomplete="off">
+                <td class="epost"><input class="epost" type="text" value=""><input class="uri" type="hidden" value="<%= source['uri'] %>"></td>
+                <td class="navn"><input class="navn" type="text" value=""></td>
+                <td class="aktivert"><input type="checkbox"></td>
+                <td colspan="2" class="endre"><button class="create-new-user">opprett ny bruker</button></td>
+                <td class="info"></td></form>
+              </tr>
               <% Array(source["users"]).each do |user| %>
                 <tr class="bruker">
                   <td class="epost"><input class="user-uri" type="hidden" value="<%= user['uri']%>"><input class="epost" type="text" value="<%= user['accountName'] %>"></td>
@@ -60,13 +66,6 @@
                   <td class="info"></td>
                 </tr>
               <% end %>
-              <tr class="ny-bruker"><form autocomplete="off">
-                <td class="epost"><input class="epost" type="text" value=""><input class="uri" type="hidden" value="<%= source['uri'] %>"></td>
-                <td class="navn"><input class="navn" type="text" value=""></td>
-                <td class="aktivert"><input type="checkbox"></td>
-                <td colspan="2" class="endre"><button class="create-new-user">opprett ny bruker</button></td>
-                <td class="info"></td></form>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -211,7 +210,7 @@
         request.done(function(data) {
           $user.find('.info').html("");
           $user.find('input').val("").prop("disabled", false);
-          $user.before(data);
+          $user.after(data);
         });
 
         request.fail(function(jqXHR, textStatus, errorThrown) {

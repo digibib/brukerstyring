@@ -5,7 +5,7 @@ html,body { margin:1em; padding:0; background:#eee; font-family: Arial;}
 .ny-kilde { background:#ded; font-size: 14px; width:98%; padding: 1%; margin-bottom:1em;}
 .kilde-navn { font-size: 1.5em; display:inline-block; float:left; cursor: pointer;}
 .kilde-navn-ny { font-size: 1.5em; display:inline-block; float:left;}
-.kilde-info { padding: 1em; margin-bottom: 1em;}
+.kilde-info { padding: 1em 0; margin-bottom: 1em;}
 .kilde-innhold { clear: both; display: none;}
 .triangle { font-size:1.5em; display:inline-block; float:right; cursor: pointer;}
 .close:after {content: '▲'; }
@@ -13,12 +13,13 @@ html,body { margin:1em; padding:0; background:#eee; font-family: Arial;}
 label { font-weight: bold; margin:1em;}
 input.homepage { width: 250px;}
 input.epost { width: 300px;}
-table.brukere { margin: 1em;}
-table.brukere th { text-align: left;}
+table.brukere { margin: 1em; width: 98%; border-collapse: collapse;}
+table.brukere th { text-align: left; border-bottom: 1px solid #888;}
 table.brukere td { min-width: 70px;}
-table.brukere tr:odd { background: #f5f5f5 }
-td.info { font-size: 12px; color: red;}
+tr.ny-bruker { background: #ded; border-top:1px solid #888;}
+td.info { width: 250px; font-size: 12px; color: red;}
 .ny-kilde-info { float:right;}
 button { min-width: 4em;}
 button.big { height:2em; width: 5em; font-weight:bold; margin-left:1em;}
 img.small { height:12px;}
+h3 { margin-left: 1em; border-bottom:1px solid #888;}
