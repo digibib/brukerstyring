@@ -1,4 +1,4 @@
-html,body { margin:1em; padding:0; background:#eee; font-family: Arial;}
+html,body { margin:1em; padding:0; background:#eee; font-family: Arial; font-size:100%;}
 #container { border: 2px solid black; padding: 1em; width: 1000px; margin:auto; background:#fff;}
 .clearfix { clear:both;}
 .kilde { background:#eee; font-size: 14px; width:98%; padding: 1%; margin-bottom:1em;}
@@ -21,5 +21,6 @@ td.info { width: 250px; font-size: 12px; color: red;}
 .ny-kilde-info { float:right;}
 button { min-width: 4em;}
 button.big { height:2em; width: 5em; font-weight:bold; margin-left:1em;}
+.create-new-user { width: 128px; height: 38px; font-weight: bold;}
 img.small { height:12px;}
 h3 { margin-left: 1em; border-bottom:1px solid #888;}
