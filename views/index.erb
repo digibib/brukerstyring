@@ -60,12 +60,12 @@
                   <td class="info"></td>
                 </tr>
               <% end %>
-              <tr class="ny-bruker">
-                <td class="epost"><input class="epost" type="text" value=""></td>
-                <td class="navn"><input type="text" value=""></td>
+              <tr class="ny-bruker"><form autocomplete="off">
+                <td class="epost"><input class="epost" type="text" value=""><input class="uri" type="hidden" value="<%= source['uri'] %>"></td>
+                <td class="navn"><input class="navn" type="text" value=""></td>
                 <td class="aktivert"><input type="checkbox"></td>
-                <td colspan="2" class="endre"><button>opprett ny bruker</button></td>
-                <td class="info"></td>
+                <td colspan="2" class="endre"><button class="create-new-user">opprett ny bruker</button></td>
+                <td class="info"></td></form>
               </tr>
             </tbody>
           </table>
@@ -185,8 +185,39 @@
         request.fail(function(jqXHR, textStatus, errorThrown) {
           console.log(textStatus);
         });
+      });
+
+      // Create new user
+      $('#container').on('click', '.create-new-user', function(event) {
+        event.preventDefault();
+        var $user = $(this).parents('.ny-bruker');
+        var email = $user.find('input.epost').val();
+        var name = $user.find('input.navn').val();
+        var uri = $user.find('input.uri').val();
+        $user.find('.info').html("<img class='small' src='/brukerstyring/img/loading.gif'>");
+
+        var request = $.ajax({
+          url: 'user',
+          type: "POST",
+          data: {
+            name: name,
+            enail: email,
+            uri: uri
+          },
+          dataType: "json"
+        });
+
+        request.done(function(data) {
+          console.log(data);
+
+        });
+
+        request.fail(function(jqXHR, textStatus, errorThrown) {
+          $user.find('.info').html(jqXHR.responseText);
+        });
 
       });
+
     });
   </script>
 </body>

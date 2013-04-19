@@ -61,19 +61,20 @@ module Sources
   end
 
   def key(uri)
-    key = Cache.get(uri) {
-        begin
-          resp = CONN.get do |req|
-            req.headers[:secret_session_key] = Settings::SECRET_SESSION_KEY
-            req.body = {:uri => source["uri"]}.to_json
-          end
-        rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
-          #
+    source = Cache.get(uri) {
+      puts "no cahcin"
+      begin
+        resp = CONN.get do |req|
+          req.headers[:secret_session_key] = Settings::SECRET_SESSION_KEY
+          req.body = {:uri => uri}.to_json
         end
-        source_key = JSON.parse(resp.body)["source"]["api_key"]
-        Cache.set(uri, source_key)
-        source_key
+      rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
+        #
+      end
+      source = JSON.parse(resp.body)["source"]
+      Cache.set(uri, source)
+      source
     }
-    key
+    source["api_key"]
   end
 end

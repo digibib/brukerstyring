@@ -48,4 +48,16 @@ class Brukerstyring < Sinatra::Base
     Sources.delete(params["uri"])
   end
 
+  post "/user" do
+    api_key = Sources.key(params["uri"])
+    puts api_key
+    err, user = Users.create(api_key, params["name"], params["email"])
+    if err
+      status 400
+      err["error"]
+    else
+      user.to_json
+    end
+  end
+
 end

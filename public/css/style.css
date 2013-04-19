@@ -17,6 +17,7 @@ table.brukere { margin: 1em;}
 table.brukere th { text-align: left;}
 table.brukere td { min-width: 70px;}
 table.brukere tr:odd { background: #f5f5f5 }
+td.info { font-size: 12px; color: red;}
 .ny-kilde-info { float:right;}
 button { min-width: 4em;}
 button.big { height:2em; width: 5em; font-weight:bold; margin-left:1em;}
