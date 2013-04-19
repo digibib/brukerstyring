@@ -14,6 +14,17 @@
 <body autocomplete="off">
   <div id="container">
     <h2>Bokanbefalinger brukerstyring</h2>
+
+    <div class="ny-kilde">
+      <div class="kilde-navn-ny">Opprett ny kilde</div>
+      <div class="ny-kilde-info"><form autocomplete="off">
+        <label>Navn:</label> <input id="new-source-name" type="text">
+        <label>Hjemmeside:</label><input id="new-source-homepage" class="homepage" type="text">
+        <button class="big" id="new-source">Opprett</button></form>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
     <% @sources.each do |source| %>
       <div class="kilde">
         <div class="kilde-navn"><%= source["name"] %></div>
@@ -61,16 +72,6 @@
         </div>
       </div>
     <% end %>
-
-      <div class="ny-kilde">
-        <div class="kilde-navn-ny">Opprett ny kilde</div>
-        <div class="ny-kilde-info"><form autocomplete="off">
-          <label>Navn:</label> <input id="new-source-name" type="text">
-          <label>Hjemmeside:</label><input id="new-source-homepage" class="homepage" type="text">
-          <button class="big" id="new-source">Opprett</button></form>
-        </div>
-        <div class="clearfix">
-    </div>
 
   </div>
   <script>
@@ -178,7 +179,7 @@
           $nykilde.find('.uri').text(data.source.uri);
           $nykilde.find('.homepage').val(data.source.homepage);
           $nykilde.find('.delete-source').prop("disabled", false);
-          $nykilde.insertBefore('.ny-kilde');
+          $nykilde.insertAfter('.ny-kilde');
         });
 
         request.fail(function(jqXHR, textStatus, errorThrown) {
