@@ -51,7 +51,7 @@ class Brukerstyring < Sinatra::Base
   post "/user" do
     api_key = Sources.key(params["uri"])
     err, user = Users.create(api_key, params["name"], params["email"])
-    halt 400, err["error"] if err
+    halt 400, err["error"].to_s if err
     "<tr class='bruker'><td class='epost'><input class='user-uri' type='hidden' value='#{user['uri']}'><input class='epost' type='text' value='#{user['accountName']}'></td><td class='navn'><input type='text' value='#{user['name']}'></td><td class='aktivert'><input type='checkbox'></td><td class='endre'><button>lagre</button></td><td class='slett'><button class='delete-user'>slett</button></td><td class='info'></td></tr>"
   end
 
@@ -59,7 +59,7 @@ class Brukerstyring < Sinatra::Base
     puts params
     api_key = Sources.key(params["source_uri"])
     err, ok = Users.delete(api_key, params["user_uri"])
-    halt 400, err["error"] if err
+    halt 400, err["error"].to_s if err
     ok.to_json
   end
 
