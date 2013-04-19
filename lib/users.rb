@@ -20,7 +20,6 @@ module Users
     begin
       resp = CONN.post do |req|
         req.body = {:api_key => api_key, :accountName => email, :name => name}.to_json
-        puts req.body
       end
     rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
       return [{"error" => "Noe gikk galt!"}.to_json, nil]
@@ -28,6 +27,20 @@ module Users
     res = JSON.parse(resp.body)
     return [res, nil] if resp.status != 201
     return [nil, res["reviewer"]]
+  end
+
+  def delete(api_key, uri)
+    begin
+      resp = CONN.delete do |req|
+        req.body = {:api_key => api_key, :uri => uri}.to_json
+        puts req.body
+      end
+    rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
+      return [{"error" => "Noe gikk galt!"}.to_json, nil]
+    end
+    res = JSON.parse(resp.body)
+    return [res, nil] if resp.status != 200
+    return [nil, res]
   end
 
   def save

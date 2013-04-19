@@ -56,7 +56,7 @@
                   <td class="navn"><input type="text" value="<%= user['name'] %>"></td>
                   <td class="aktivert"><input type="checkbox" checked="checked"></td>
                   <td class="endre"><button>lagre</button></td>
-                  <td class="slett"><button>slett</button></td>
+                  <td class="slett"><button class="delete-user">slett</button></td>
                   <td class="info"></td>
                 </tr>
               <% end %>
@@ -195,6 +195,7 @@
         var name = $user.find('input.navn').val();
         var uri = $user.find('input.uri').val();
         $user.find('.info').html("<img class='small' src='/brukerstyring/img/loading.gif'>");
+        $user.find('input').prop("disabled", true);
 
         var request = $.ajax({
           url: 'user',
@@ -208,14 +209,43 @@
         });
 
         request.done(function(data) {
-          $user.find('.info').html("OK: bruker oprrettet");
-          $user.find('input.epost').val("");
-          $user.find('input.navn').val("");
+          $user.find('.info').html("");
+          $user.find('input').val("").prop("disabled", false);
           $user.before(data);
         });
 
         request.fail(function(jqXHR, textStatus, errorThrown) {
           $user.find('.info').html(jqXHR.responseText);
+          $user.find('input').prop("disabled", false);
+        });
+
+      });
+
+      // Delete user
+      $('#container').on('click', '.delete-user', function(event) {
+        event.preventDefault();
+        var $user = $(this).parents('.bruker');
+        var $source = $(this).parents('.kilde');
+        var user_uri = $user.find('input.user-uri').val();
+        var source_uri = $source.find('span.uri').text();
+        $user.find('.info').html("<img class='small' src='/brukerstyring/img/loading.gif'>");
+        $user.find('input').prop("disabled", true);
+
+        var request = $.ajax({
+          url: 'user',
+          type: "DELETE",
+          data: { user_uri: user_uri,
+                  source_uri: source_uri},
+          dataType: "json"
+        });
+
+        request.done(function(data) {
+          $user.remove();
+        });
+
+        request.fail(function(jqXHR, textStatus, errorThrown) {
+          $user.find('.info').html(jqXHR.responseText);
+          $user.find('input').prop("disabled", false);
         });
 
       });
