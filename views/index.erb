@@ -51,7 +51,7 @@
               <tr class="ny-bruker"><form autocomplete="off">
                 <td class="epost"><input class="epost" type="text" value=""><input class="uri" type="hidden" value="<%= source['uri'] %>"></td>
                 <td class="navn"><input class="navn" type="text" value=""></td>
-                <td class="aktivert"><input type="checkbox"></td>
+                <td class="aktivert"><input class="active" type="checkbox"></td>
                 <td colspan="2" class="endre"><button class="create-new-user">opprett ny bruker</button></td>
                 <td class="info"></td></form>
               </tr>
@@ -59,7 +59,7 @@
                 <tr class="bruker">
                   <td class="epost"><input class="user-uri" type="hidden" value="<%= user['uri']%>"><input class="epost" type="text" value="<%= user['accountName'] %>"></td>
                   <td class="navn"><input type="text" value="<%= user['name'] %>"></td>
-                  <td class="aktivert"><input type="checkbox" checked="checked"></td>
+                  <td class="aktivert"><input type="checkbox" <%= 'checked="checked"' unless user['status'] == "http://purl.org/NET/acc#ActivationNeeded" %>></td>
                   <td class="endre"><button>lagre</button></td>
                   <td class="slett"><button class="delete-user">slett</button></td>
                   <td class="info"></td>
@@ -191,7 +191,12 @@
         var $user = $(this).parents('.ny-bruker');
         var email = $user.find('input.epost').val();
         var name = $user.find('input.navn').val();
-        var uri = $user.find('input.uri').val();
+        var uri = $(this).parents('.kilde').find('span.uri').text();
+        if ( $user.find('.active').is(':checked') ) {
+          var active = true;
+        } else {
+          var active = false;
+        }
         $user.find('.info').html("<img class='small' src='/brukerstyring/img/loading.gif'>");
         $user.find('input').prop("disabled", true);
 
@@ -201,7 +206,9 @@
           data: {
             name: name,
             email: email,
-            uri: uri
+            uri: uri,
+            active: active
+
           },
           dataType: "html"
         });
@@ -209,6 +216,7 @@
         request.done(function(data) {
           $user.find('.info').html("");
           $user.find('input').val("").prop("disabled", false);
+          $user.find('.active').prop("checked", false);
           $user.after(data);
         });
 

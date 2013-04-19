@@ -16,10 +16,12 @@ module Users
     Array(JSON.parse(resp.body)["reviewers"])
   end
 
-  def create(api_key, name, email)
+  def create(api_key, name, email, active)
     begin
       resp = CONN.post do |req|
-        req.body = {:api_key => api_key, :accountName => email, :name => name}.to_json
+        req.body = {:api_key => api_key, :accountName => email,
+                    :active => active, :name => name}.to_json
+        puts req.body
       end
     rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
       return [{"error" => "Noe gikk galt!"}.to_json, nil]
@@ -43,6 +45,22 @@ module Users
     return [nil, res]
   end
 
-  def save
+  def save(api_key, uri, name, email, status)
+    active = false
+    active = true if status == "true"
+
+    begin
+      resp = CONN.delete do |req|
+        req.body = {:api_key => api_key,
+                    :uri => uri, :accountName => email,
+                    :name => name, :active => active}.to_json
+        puts req.body
+      end
+    rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
+      return [{"error" => "Noe gikk galt!"}.to_json, nil]
+    end
+    res = JSON.parse(resp.body)
+    return [res, nil] if resp.status != 200
+    return [nil, res]
   end
 end
