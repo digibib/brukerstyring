@@ -49,7 +49,7 @@
             </thead>
             <tbody>
               <tr class="ny-bruker"><form autocomplete="off">
-                <td class="epost"><input class="epost" type="text" value=""><input class="uri" type="hidden" value="<%= source['uri'] %>"></td>
+                <td><input class="epost" type="text" value=""><input class="uri" type="hidden" value="<%= source['uri'] %>"></td>
                 <td class="navn"><input class="navn" type="text" value=""></td>
                 <td class="aktivert"><input class="active" type="checkbox"></td>
                 <td colspan="2" class="endre"><button class="create-new-user">opprett ny bruker</button></td>
@@ -57,10 +57,10 @@
               </tr>
               <% Array(source["users"]).each do |user| %>
                 <tr class="bruker">
-                  <td class="epost"><input class="user-uri" type="hidden" value="<%= user['uri']%>"><input class="epost" type="text" value="<%= user['accountName'] %>"></td>
-                  <td class="navn"><input type="text" value="<%= user['name'] %>"></td>
-                  <td class="aktivert"><input type="checkbox" <%= 'checked="checked"' unless user['status'] == "http://purl.org/NET/acc#ActivationNeeded" %>></td>
-                  <td class="endre"><button>lagre</button></td>
+                  <td><input class="user-uri" type="hidden" value="<%= user['uri']%>"><input class="epost" type="text" value="<%= user['accountName'] %>"></td>
+                  <td><input type="text" class="navn" value="<%= user['name'] %>"></td>
+                  <td class="aktivert"><input class="active" type="checkbox" <%= 'checked="checked"' unless user['status'] == "http://purl.org/NET/acc#ActivationNeeded" %>></td>
+                  <td class="endre"><button class="save-user">lagre</button></td>
                   <td class="slett"><button class="delete-user">slett</button></td>
                   <td class="info"></td>
                 </tr>
@@ -253,9 +253,47 @@
           $user.find('.info').html(jqXHR.responseText);
           $user.find('input').prop("disabled", false);
         });
-
       });
 
+      // Update user
+      $('#container').on('click', '.save-user', function(event) {
+        event.preventDefault();
+        var $user = $(this).parents('.bruker');
+        var $source = $(this).parents('.kilde');
+        var user_uri = $user.find('input.user-uri').val();
+        var source_uri = $source.find('span.uri').text();
+        var name = $user.find('.navn').val();
+        var email = $user.find('.epost').val();
+        if ( $user.find('.active').is(':checked') ) {
+          var active = true;
+        } else {
+          var active = false;
+        }
+
+        $user.find('.info').html("<img class='small' src='/brukerstyring/img/loading.gif'>");
+        $user.find('input').prop("disabled", true);
+
+        var request = $.ajax({
+          url: 'user',
+          type: "PUT",
+          data: { user_uri: user_uri,
+                  source_uri: source_uri,
+                  name: name,
+                  email: email,
+                  active: active},
+          dataType: "json"
+        });
+
+        request.done(function(data) {
+          $user.find('.info').html("OK. Lagret");
+          $user.find('input').prop("disabled", false);
+        });
+
+        request.fail(function(jqXHR, textStatus, errorThrown) {
+          $user.find('.info').html(jqXHR.responseText);
+          $user.find('input').prop("disabled", false);
+        });
+      });
     });
   </script>
 </body>

@@ -50,7 +50,7 @@ module Users
     active = true if status == "true"
 
     begin
-      resp = CONN.delete do |req|
+      resp = CONN.put do |req|
         req.body = {:api_key => api_key,
                     :uri => uri, :accountName => email,
                     :name => name, :active => active}.to_json
