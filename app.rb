@@ -6,6 +6,7 @@ require 'json'
 
 require_relative "config/settings"
 require_relative "lib/cache"
+require_relative "lib/email"
 require_relative "lib/users"
 require_relative "lib/sources"
 

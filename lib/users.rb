@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require "faraday"
 require "json"
 
@@ -28,6 +29,10 @@ module Users
     end
     res = JSON.parse(resp.body)
     return [res, nil] if resp.status != 201
+
+    # Notify user of the created account
+    Email.new_user(email, name)
+
     return [nil, res["reviewer"]]
   end
 
@@ -63,4 +68,5 @@ module Users
     return [res, nil] if resp.status != 200
     return [nil, res]
   end
+
 end
