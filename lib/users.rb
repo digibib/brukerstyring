@@ -31,7 +31,7 @@ module Users
     return [res, nil] if resp.status != 201
 
     # Notify user of the created account
-    Email.new_user(email, name)
+    #Email.new_user(email, name)
 
     return [nil, res["reviewer"]]
   end
