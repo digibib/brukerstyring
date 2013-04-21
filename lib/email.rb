@@ -1,6 +1,8 @@
 # encoding: UTF-8
 require 'net/smtp'
 
+require_relative "../config/settings"
+
 class Email
   include TorqueBox::Messaging::Backgroundable
 
