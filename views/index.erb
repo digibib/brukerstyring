@@ -96,6 +96,9 @@
 
       // Remove source (only possible if source has no users)
       $('#container').on('click', '.delete-source', function(event) {
+        if ( ! window.confirm("Er du sikker?") ) {
+          return;
+        }
         $(this).html("<img class='small' src='/brukerstyring/img/loading.gif'>");
         var $kilde = $(this).parents('.kilde')
         var uri = $kilde.find('.uri').text();
@@ -230,6 +233,9 @@
       // Delete user
       $('#container').on('click', '.delete-user', function(event) {
         event.preventDefault();
+        if ( ! window.confirm("Er du sikker?") ) {
+          return;
+        }
         var $user = $(this).parents('.bruker');
         var $source = $(this).parents('.kilde');
         var user_uri = $user.find('input.user-uri').val();
