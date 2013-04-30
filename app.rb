@@ -29,6 +29,8 @@ class Brukerstyring < Sinatra::Base
 
   get "/" do
     @sources = Sources.fetch
+    # Sort sources alphabetically by name
+    @sources.sort! { |a,b| a["name"].downcase <=> b["name"].downcase }
 
     users = Users.fetch
     @sources.map { |s| s["users"] = users.group_by { |u| u["accountServiceHomepage"]}[s["uri"]] }
