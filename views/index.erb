@@ -40,8 +40,8 @@
           <table class="brukere">
             <thead>
               <tr>
-                <th>e-post</th>
                 <th>navn</th>
+                <th>e-post</th>
                 <th>aktivert?</th>
                 <th colspan="2">endringer</th>
                 <th>info</th>
@@ -49,16 +49,16 @@
             </thead>
             <tbody>
               <tr class="ny-bruker"><form autocomplete="off">
-                <td><input class="epost" type="text" value=""><input class="uri" type="hidden" value="<%= source['uri'] %>"></td>
                 <td class="navn"><input class="navn" type="text" value=""></td>
+                <td><input class="epost" type="text" value=""><input class="uri" type="hidden" value="<%= source['uri'] %>"></td>
                 <td class="aktivert"><input class="active" type="checkbox"></td>
                 <td colspan="2" class="endre"><button class="create-new-user">opprett ny bruker</button></td>
                 <td class="info"></td></form>
               </tr>
               <% Array(source["users"]).each do |user| %>
                 <tr class="bruker">
-                  <td><input class="user-uri" type="hidden" value="<%= user['uri']%>"><input class="epost" type="text" value="<%= user['accountName'] %>"></td>
                   <td><input type="text" class="navn" value="<%= user['name'] %>"></td>
+                  <td><input class="user-uri" type="hidden" value="<%= user['uri']%>"><input class="epost" type="text" value="<%= user['accountName'] %>"></td>
                   <td class="aktivert"><input class="active" type="checkbox" <%= 'checked="checked"' unless user['status'] == "http://purl.org/NET/acc#ActivationNeeded" %>></td>
                   <td class="endre"><button class="save-user">lagre</button></td>
                   <td class="slett"><button class="delete-user">slett</button></td>

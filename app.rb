@@ -34,7 +34,7 @@ class Brukerstyring < Sinatra::Base
 
     users = Users.fetch
     @sources.map { |s| s["users"] = users.group_by { |u| u["accountServiceHomepage"]}[s["uri"]] }
-
+    @sources.map { |s| Array(s["users"]).sort! { |a,b| a["name"].downcase <=> b["name"].downcase }}
     erb :index
   end
 
