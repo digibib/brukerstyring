@@ -21,11 +21,13 @@ Subject: Velkommen til anbefalinger.deichman.no!
 
 Hei, #{name}!
 
-Du kan nå logge deg på anbefalinger.deichman.no.
-Brukernavn er e-postadressen din, og passordet er #{email.split('@').first+'123'}
-Du kan/bør bytte passord første gang du logger på.
+Du kan nå logge deg på http://anbefalinger.deichman.no og begynne å bidra til bokanbefalingsbasen.
 
-hilsen Deichman
+Brukernavn er e-postadressen din, og passordet er #{email.split('@').first+'123'}
+Du bør bytte passord første gang du logger deg på.
+
+Beste hilsen,
+Bokanbefalingsteamet
 END_OF_MESSAGE
 
     smtp = Net::SMTP.new('smtp.gmail.com', 587)
