@@ -58,8 +58,8 @@
               <% Array(source["users"]).each do |user| %>
                 <tr class="bruker">
                   <td><input type="text" class="navn" value="<%= user['name'] %>"></td>
-                  <td><input class="user-uri" type="hidden" value="<%= user['uri']%>"><input class="epost" type="text" value="<%= user['accountName'] %>"></td>
-                  <td class="aktivert"><input class="active" type="checkbox" <%= 'checked="checked"' unless user['status'] == "http://purl.org/NET/acc#ActivationNeeded" %>></td>
+                  <td><input class="user-uri" type="hidden" value="<%= user['uri']%>"><input class="epost" type="text" value="<%= user['userAccount']['accountName'] %>"></td>
+                  <td class="aktivert"><input class="active" type="checkbox" <%= 'checked="checked"' unless user['userAccount']['status'] == "http://purl.org/NET/acc#ActivationNeeded" %>></td>
                   <td class="endre"><button class="save-user">lagre</button></td>
                   <td class="slett"><button class="delete-user">slett</button></td>
                   <td class="info"></td>

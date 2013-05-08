@@ -33,7 +33,7 @@ class Brukerstyring < Sinatra::Base
     @sources.sort! { |a,b| a["name"].downcase <=> b["name"].downcase }
 
     users = Users.fetch
-    @sources.map { |s| s["users"] = users.group_by { |u| u["accountServiceHomepage"]}[s["uri"]] }
+    @sources.map { |s| s["users"] = users.group_by { |u| u["userAccount"]["accountServiceHomepage"]}[s["uri"]] }
     @sources.map { |s| Array(s["users"]).sort! { |a,b| a["name"].downcase <=> b["name"].downcase }}
     erb :index
   end
@@ -56,7 +56,7 @@ class Brukerstyring < Sinatra::Base
     api_key = Sources.key(params["uri"])
     err, user = Users.create(api_key, params["name"], params["email"], params["active"])
     halt 400, err["error"].to_s if err
-    "<tr class='bruker'><td><input class='user-uri' type='hidden' value='#{user['uri']}'><input class='epost' type='text' value='#{user['accountName']}'></td><td><input class='navn' type='text' value='#{user['name']}'></td><td class='aktivert'><input class='active' type='checkbox' #{'checked="checked"' unless user['status']}></td><td class='endre'><button class='save-user'>lagre</button></td><td class='slett'><button class='delete-user'>slett</button></td><td class='info'></td></tr>"
+    "<tr class='bruker'><td><input class='navn' type='text' value='#{user['name']}'></td><td><input class='user-uri' type='hidden' value='#{user['uri']}'><input class='epost' type='text' value='#{user['userAccount']['accountName']}'></td><td class='aktivert'><input class='active' type='checkbox' #{'checked="checked"' unless user['userAccount']['status']}></td><td class='endre'><button class='save-user'>lagre</button></td><td class='slett'><button class='delete-user'>slett</button></td><td class='info'></td></tr>"
   end
 
   put "/user" do
