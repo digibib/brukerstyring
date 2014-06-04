@@ -265,10 +265,9 @@
         var source_uri = $source.find('span.uri').text();
         var name = $user.find('.navn').val();
         var email = $user.find('.epost').val();
+        var active = false;
         if ( $user.find('.active').is(':checked') ) {
-          var active = true;
-        } else {
-          var active = false;
+          active = true;
         }
 
         $user.find('.info').html("<img class='small' src='/brukerstyring/img/loading.gif'>");
@@ -286,7 +285,12 @@
         });
 
         request.done(function(data) {
-          $user.find('.info').html("OK. Lagret");
+          if ( active ) {
+            $user.find('.info').html("OK. Lagret & sendt nytt passord.");
+            $user.find('.active').prop('checked', false);
+          } else {
+            $user.find('.info').html("OK. Lagret");
+          }
           $user.find('input').prop("disabled", false);
         });
 
