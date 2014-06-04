@@ -37,4 +37,33 @@ END_OF_MESSAGE
     end
 
   end
+
+  def self.new_password(email, name, password)
+
+   msg = <<END_OF_MESSAGE
+Content-type: text/plain; charset=UTF-8
+From: #{FROM_ALIAS} <#{FROM}>
+To: <#{email}>
+Subject: anbefalinger.deichman.no: nytt passord
+
+Hei, #{name}!
+
+Det har blitt laget et nytt passord for din konto: #{password}
+Du bør bytte passord når du logger deg på.
+
+Brukernavn er e-postadressen din.
+
+Beste hilsen,
+Bokanbefalingsteamet
+END_OF_MESSAGE
+
+    smtp = Net::SMTP.new('smtp.gmail.com', 587)
+    smtp.enable_starttls
+    smtp.start("gmail.com", Settings::EMAIL, Settings::EMAIL_PASS, :login) do
+      smtp.send_message msg, FROM, email
+    end
+
+  end
+
+
 end

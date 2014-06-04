@@ -62,7 +62,7 @@ class Brukerstyring < Sinatra::Base
   put "/user" do
     puts params
     api_key = Sources.key(params["source_uri"])
-    err, user = Users.save(api_key, params["user_uri"], params["name"], params["email"], params["active"])
+    err, user = Users.save(api_key, params["user_uri"], params["name"], params["email"], params["newPassword"])
     halt 400, err["error"].to_s if err
     user.to_json
   end

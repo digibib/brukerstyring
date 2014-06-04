@@ -50,15 +50,18 @@ module Users
     return [nil, res]
   end
 
-  def save(api_key, uri, name, email, status)
-    active = false
-    active = true if status == "true"
+  def save(api_key, uri, name, email, new_password)
+    r = {:api_key => api_key,
+         :uri => uri, :accountName => email,
+         :name => name}
+
+    if new_password
+      r[:password] = rand(36**8).to_s(36)
+    end
 
     begin
       resp = CONN.put do |req|
-        req.body = {:api_key => api_key,
-                    :uri => uri, :accountName => email,
-                    :name => name, :active => active}.to_json
+        req.body = r.to_json
         puts req.body
       end
     rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
@@ -66,6 +69,11 @@ module Users
     end
     res = JSON.parse(resp.body)
     return [res, nil] if resp.status != 200
+
+    if new_password
+      Email.new_password(email, name, r[:password])
+    end
+
     return [nil, res]
   end
 

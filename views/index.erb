@@ -42,7 +42,7 @@
               <tr>
                 <th>navn</th>
                 <th>e-post</th>
-                <th>aktivert?</th>
+                <th>nytt passord</th>
                 <th colspan="2">endringer</th>
                 <th>info</th>
               </tr>
@@ -51,7 +51,7 @@
               <tr class="ny-bruker"><form autocomplete="off">
                 <td class="navn"><input class="navn" type="text" value=""></td>
                 <td><input class="epost" type="text" value=""><input class="uri" type="hidden" value="<%= source['uri'] %>"></td>
-                <td class="aktivert"><input class="active" type="checkbox"></td>
+                <td></td>
                 <td colspan="2" class="endre"><button class="create-new-user">opprett ny bruker</button></td>
                 <td class="info"></td></form>
               </tr>
@@ -59,7 +59,7 @@
                 <tr class="bruker">
                   <td><input type="text" class="navn" value="<%= user['name'] %>"></td>
                   <td><input class="user-uri" type="hidden" value="<%= user['uri']%>"><input class="epost" type="text" value="<%= user['userAccount']['accountName'] %>"></td>
-                  <td class="aktivert"><input class="active" type="checkbox" <%= 'checked="checked"' unless user['userAccount']['status'] == "http://purl.org/NET/acc#ActivationNeeded" %>></td>
+                  <td class="aktivert"><input class="active" type="checkbox"></td>
                   <td class="endre"><button class="save-user">lagre</button></td>
                   <td class="slett"><button class="delete-user">slett</button></td>
                   <td class="info"></td>
@@ -195,11 +195,6 @@
         var email = $user.find('input.epost').val();
         var name = $user.find('input.navn').val();
         var uri = $(this).parents('.kilde').find('span.uri').text();
-        if ( $user.find('.active').is(':checked') ) {
-          var active = true;
-        } else {
-          var active = false;
-        }
         $user.find('.info').html("<img class='small' src='/brukerstyring/img/loading.gif'>");
         $user.find('input').prop("disabled", true);
 
@@ -210,7 +205,7 @@
             name: name,
             email: email,
             uri: uri,
-            active: active
+            active: true
 
           },
           dataType: "html"
@@ -286,7 +281,7 @@
                   source_uri: source_uri,
                   name: name,
                   email: email,
-                  active: active},
+                  newPassword: active},
           dataType: "json"
         });
 
