@@ -51,6 +51,8 @@ Hei, #{name}!
 Det har blitt laget et nytt passord for din konto: #{password}
 Du bør bytte passord når du logger deg på.
 
+Du logger inn på http://anbefalinger.deichman.no for å bidra med anbefalinger.
+
 Brukernavn er e-postadressen din.
 
 Beste hilsen,
