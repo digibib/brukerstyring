@@ -55,7 +55,7 @@ module Users
          :uri => uri, :accountName => email,
          :name => name}
 
-    if new_password
+    if new_password == "true"
       r[:password] = rand(36**8).to_s(36)
     end
 
@@ -70,7 +70,7 @@ module Users
     res = JSON.parse(resp.body)
     return [res, nil] if resp.status != 200
 
-    if new_password
+    if new_password == "true"
       Email.new_password(email, name, r[:password])
     end
 
