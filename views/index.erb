@@ -36,6 +36,7 @@
             <label>Hjemmeside:</label><input class="homepage" type="text" value="<%= source['homepage'] %>">&nbsp;
             <button class="save-source">lagre</button>
             <button class="delete-source" <%= 'disabled' if source["users"] %>>slett</button>
+            <label>API_KEY:</label><span class="api_key"><%= source["api_key"] %></span>
           </div>
           <table class="brukere">
             <thead>
@@ -178,6 +179,7 @@
           $nykilde.find('.bruker').remove();
           $nykilde.find('.kilde-navn').html(data.source.name);
           $nykilde.find('.uri').text(data.source.uri);
+          $nykilde.find('.api_key').text(data.source.api_key);
           $nykilde.find('.homepage').val(data.source.homepage);
           $nykilde.find('.delete-source').prop("disabled", false);
           $nykilde.insertAfter('.ny-kilde');
