@@ -1,5 +1,4 @@
 require 'sinatra/base'
-require 'torquebox'
 require 'faraday'
 require 'json'
 
@@ -11,21 +10,6 @@ require_relative "lib/users"
 require_relative "lib/sources"
 
 class Brukerstyring < Sinatra::Base
-
-  configure :development do
-    require "sinatra/reloader"
-    register Sinatra::Reloader
-  end
-
-  use TorqueBox::Session::ServletStore
-
-  use Rack::Auth::Basic, "Restricted Area" do |username, password|
-    [username, password] == [Settings::USERNAME, Settings::PASSWORD]
-  end
-
-  before do
-    # nothing
-  end
 
   get "/" do
     @sources = Sources.fetch
@@ -74,6 +58,5 @@ class Brukerstyring < Sinatra::Base
     halt 400, err["error"].to_s if err
     ok.to_json
   end
-
 
 end

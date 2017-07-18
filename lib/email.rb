@@ -4,12 +4,9 @@ require 'net/smtp'
 require_relative "../config/settings"
 
 class Email
-  include TorqueBox::Messaging::Backgroundable
 
   FROM = Settings::EMAIL
   FROM_ALIAS = "Bokanbefalinger/Deichmanske bibliotek"
-
-  always_background :new_user
 
   def self.new_user(email, name)
 
@@ -66,6 +63,5 @@ END_OF_MESSAGE
     end
 
   end
-
 
 end

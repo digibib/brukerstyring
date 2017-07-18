@@ -1,8 +1,0 @@
-module Settings
-  SECRET_SESSION_KEY = "secret"
-  API = "http://data.deichman.no/api/"
-  USERNAME = "username"
-  PASSWORD = "password"
-  EMAIL = "me@gmail.com"
-  EMAIL_PASS = "also_secret"
-end
