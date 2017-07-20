@@ -26,6 +26,7 @@ module Sources
     begin
       resp = CONN.post do |req|
         req.headers[:secret_session_key] = Settings::SECRET_SESSION_KEY
+        req.headers['Content-Type'] = 'application/json'
         req.body = {:name => name, :homepage => homepage}.to_json
       end
     rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
@@ -38,6 +39,7 @@ module Sources
     begin
       resp = CONN.put do |req|
         req.headers[:secret_session_key] = Settings::SECRET_SESSION_KEY
+        req.headers['Content-Type'] = 'application/json'
         req.body = {:uri => uri, :name => name, :homepage => homepage}.to_json
       end
     rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
@@ -50,6 +52,7 @@ module Sources
     begin
       resp = CONN.delete do |req|
         req.headers[:secret_session_key] = Settings::SECRET_SESSION_KEY
+        req.headers['Content-Type'] = 'application/json'
         req.body = {:uri => uri}.to_json
       end
     rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
@@ -63,7 +66,7 @@ module Sources
       begin
         resp = CONN.get do |req|
           req.headers[:secret_session_key] = Settings::SECRET_SESSION_KEY
-          req.body = {:uri => uri}.to_json
+          req.params["uri"] = uri
         end
       rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
         #

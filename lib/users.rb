@@ -20,9 +20,9 @@ module Users
   def create(api_key, name, email, active)
     begin
       resp = CONN.post do |req|
+        req.headers['Content-Type'] = 'application/json'
         req.body = {:api_key => api_key, :accountName => email,
                     :active => active, :name => name}.to_json
-        puts req.body
       end
     rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
       return [{"error" => "Noe gikk galt!"}.to_json, nil]
@@ -39,8 +39,8 @@ module Users
   def delete(api_key, uri)
     begin
       resp = CONN.delete do |req|
+        req.headers['Content-Type'] = 'application/json'
         req.body = {:api_key => api_key, :uri => uri}.to_json
-        puts req.body
       end
     rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
       return [{"error" => "Noe gikk galt!"}.to_json, nil]
@@ -62,7 +62,7 @@ module Users
     begin
       resp = CONN.put do |req|
         req.body = r.to_json
-        puts req.body
+        req.headers['Content-Type'] = 'application/json'
       end
     rescue Faraday::Error::TimeoutError, Faraday::Error::ConnectionFailed
       return [{"error" => "Noe gikk galt!"}.to_json, nil]
