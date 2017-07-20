@@ -10,6 +10,7 @@ require_relative "lib/users"
 require_relative "lib/sources"
 
 class Brukerstyring < Sinatra::Base
+  enable :dump_errors
 
   get "/" do
     @sources = Sources.fetch

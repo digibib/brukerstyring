@@ -12,4 +12,4 @@ RUN apk --update add --virtual build-dependencies ruby-dev build-base && \
 
 COPY . /app/
 
-CMD bundle exec puma -p 8802 -e production
+CMD bundle exec puma -p 8802 -e production --log-requests
