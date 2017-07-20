@@ -9,7 +9,7 @@ class Cache
   @@clients = {}
 
   def self.redis(n=0)
-    @@clients[n] ||= Redis.new(:db => n)
+    @@clients[n] ||= Redis.new(:host => "redis", :port => 6379, :db => n)
   end
 
   def self.set(key, data, where=:various)
